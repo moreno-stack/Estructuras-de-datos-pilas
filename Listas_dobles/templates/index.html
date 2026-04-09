@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="panel grid-two">
+    <section class="section-card">
+        <h2>Agregar nuevo turno</h2>
+        <form action="/add" method="post">
+            <label for="nombre">Nombre del turno</label>
+            <input id="nombre" type="text" name="nombre" placeholder="Por ejemplo, Ajuste dental" required />
+
+            <label for="prioridad">Prioridad</label>
+            <input id="prioridad" type="number" name="prioridad" min="1" max="10" value="5" required />
+
+            <button type="submit">Agregar turno</button>
+        </form>
+    </section>
+
+    <section class="section-card">
+        <h2>Ficha de salida</h2>
+        <form action="/checkout" method="post">
+            <label for="salida_nombre">Turno atendido</label>
+            <select id="salida_nombre" name="salida_nombre" required>
+                <option value="">Selecciona un turno</option>
+                {% for turno in turnos %}
+                <option value="{{ turno.nombre }}">{{ turno.nombre }} (prio {{ turno.prioridad }})</option>
+                {% endfor %}
+            </select>
+
+            <label for="motivo">Motivo de salida</label>
+            <input id="motivo" type="text" name="motivo" placeholder="Por ejemplo, Atención completa" />
+
+            <button type="submit">Registrar salida</button>
+        </form>
+    </section>
+</div>
+
+<div class="panel grid-two">
+    <section class="section-card">
+        <h2>Resumen de jornada</h2>
+        <p><strong>Turnos pendientes:</strong> {{ summary.total_pendientes }}</p>
+        <p><strong>Turnos atendidos:</strong> {{ summary.total_atendidos }}</p>
+        <p><strong>Próximo turno:</strong> {{ summary.turno_proximo }}</p>
+        <p><strong>Prioridad más alta actual:</strong> {{ summary.turno_mayor_prioridad }}</p>
+    </section>
+
+    <section class="section-card">
+        <h2>Última salida</h2>
+        {% if summary.ultima_salida %}
+        <p><strong>Nombre:</strong> {{ summary.ultima_salida.nombre }}</p>
+        <p><strong>Prioridad:</strong> {{ summary.ultima_salida.prioridad }}</p>
+        <p><strong>Hora:</strong> {{ summary.ultima_salida.hora }}</p>
+        <p><strong>Motivo:</strong> {{ summary.ultima_salida.motivo }}</p>
+        {% else %}
+        <p>No se ha registrado ninguna salida todavía.</p>
+        {% endif %}
+    </section>
+</div>
+
+<div class="panel">
+    <h2>Turnos actuales</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Turno</th>
+                <th>Prioridad</th>
+                <th>Comandos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for turno in turnos %}
+            <tr>
+                <td>{{ turno.nombre }}</td>
+                <td><span class="badge">{{ turno.prioridad }}</span></td>
+                <td class="actions">
+                    <a class="button-link" href="/move/{{ turno.nombre }}/up">Subir</a>
+                    <a class="button-link" href="/move/{{ turno.nombre }}/down">Bajar</a>
+                    <a class="button-link" href="/remove/{{ turno.nombre }}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="panel">
+    <h2>Salidas registradas</h2>
+    {% if salidas %}
+    <table>
+        <thead>
+            <tr>
+                <th>Turno</th>
+                <th>Prioridad</th>
+                <th>Hora</th>
+                <th>Motivo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salida in salidas|reverse %}
+            <tr>
+                <td>{{ salida.nombre }}</td>
+                <td><span class="badge">{{ salida.prioridad }}</span></td>
+                <td>{{ salida.hora }}</td>
+                <td>{{ salida.motivo }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay salidas registradas aún.</p>
+    {% endif %}
+</div>
+{% endblock %}
