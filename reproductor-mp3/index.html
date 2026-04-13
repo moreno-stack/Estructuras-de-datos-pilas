@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor UCC - Estructuras de Datos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h2>🎵 UCC Music</h2>
+                <p>By. Samuel Moreno Gomez</p>
+            </div>
+
+            <div class="seccion-sidebar">
+                <h3>1. ¿Dónde agregar?</h3>
+                <select id="select-posicion" class="input-dark">
+                    <option value="final">Al final de la lista</option>
+                    <option value="inicio">Al inicio de la lista</option>
+                    <option value="cualquiera">En una posición específica...</option>
+                </select>
+                <input type="number" id="input-indice" class="input-dark" placeholder="Ej: 2" style="display:none; margin-top: 10px;">
+            </div>
+
+            <div class="seccion-sidebar">
+                <h3>2. Buscar Online (iTunes)</h3>
+                <div class="buscador-container">
+                    <input type="text" id="input-busqueda" class="input-dark" placeholder="Ej: Feid, Queen...">
+                    <button id="btn-buscar" class="btn-secundario">🔍</button>
+                </div>
+                <div id="resultados-busqueda" class="resultados-container">
+                    </div>
+            </div>
+
+            <hr class="divisor">
+
+            <div class="seccion-sidebar">
+                <h3>O Sube un Archivo Local</h3>
+                <input type="text" id="input-titulo-local" class="input-dark mb-1" placeholder="Título">
+                <input type="text" id="input-artista-local" class="input-dark mb-1" placeholder="Artista">
+                <input type="file" id="input-archivo" class="input-dark mb-1" accept="audio/*">
+                <button id="btn-agregar-local" class="btn-primario">Añadir Archivo Local</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Mi Playlist</h1>
+                <span id="contador-canciones">0 canciones</span>
+            </header>
+            
+            <div class="titulos-columnas">
+                <span>#</span>
+                <span>Título</span>
+                <span>Álbum/Artista</span>
+                <span>Acción</span>
+            </div>
+
+            <ul id="ul-playlist" class="playlist-lista">
+                </ul>
+        </main>
+
+    </div>
+
+    <footer class="player-bar">
+        <div class="info-cancion-actual">
+            <img id="img-portada-actual" src="https://via.placeholder.com/60/282828/FFFFFF?text=+" alt="Portada" class="portada-actual">
+            <div class="textos-actual">
+                <h4 id="txt-titulo-actual">Sin reproducir</h4>
+                <p id="txt-artista-actual">Selecciona una canción</p>
+            </div>
+        </div>
+
+        <div class="controles-reproductor">
+            <div class="botones-principales">
+                <button id="btn-retroceder" class="btn-control">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                </button>
+                
+                <button id="btn-play-pause" class="btn-control play-btn">
+                    <svg id="icono-estado" viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                
+                <button id="btn-parar" class="btn-control">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M6 6h12v12H6z"/></svg>
+                </button>
+                
+                <button id="btn-adelantar" class="btn-control">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                </button>
+            </div>
+            
+            <div class="barra-progreso-wrapper">
+                <span id="tiempo-actual">0:00</span>
+                <input type="range" id="barra-progreso" value="0" min="0" max="100" class="slider-progreso">
+                <span id="tiempo-total">0:00</span>
+            </div>
+        </div>
+        
+        <div class="control-volumen">
+            🔊 <input type="range" id="barra-volumen" value="100" min="0" max="100" class="slider-progreso">
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
